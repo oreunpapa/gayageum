@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가야금 아티스트를 위한 디지털 전환 마스터 플랜</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Modern Hanji -->
+    <!-- Application Structure Plan: The application is structured into four main thematic sections, moving from motivation to action: 1) Why Digital? (The Problem & Opportunity), 2) Phase 1: Building the Digital Stage (Content Creation), 3) Phase 2: Growing with Fans (Community), and 4) Phase 3: Becoming a Sustainable Artist (Monetization & Growth). This task-oriented flow is more intuitive for an artist than the report's linear structure. It starts with the 'why' using impactful data, then provides actionable 'what' and 'how' in digestible modules. A sticky navigation allows users to jump between these strategic pillars, making the plan explorable rather than just readable. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Market Data (Tables 1 & Share). Goal: Inform/Convince. Viz: Bar & Donut charts (Chart.js) to visually shock the user with the stark reality. Interaction: Hover tooltips. Justification: More impactful than tables.
+        - Report Info: Content Ideas (Table 2). Goal: Organize/Inspire. Viz: Interactive card grid (HTML/JS). Interaction: Click to reveal details. Justification: More engaging and less overwhelming than a long table.
+        - Report Info: Platform Strategies (Table 3). Goal: Organize/Inform. Viz: Tabbed interface (HTML/JS). Interaction: Click to switch platforms. Justification: Standard UI for comparing distinct info sets.
+        - Report Info: Fandom/Monetization. Goal: Explain/Organize. Viz: Styled HTML/CSS diagrams and icon grids. Interaction: Hover/Click for details. Justification: Visual metaphors for abstract concepts are easier to grasp.
+        - Library/Method: All visualizations use Chart.js (Canvas) or structured HTML/CSS with Tailwind, powered by Vanilla JS for interactivity.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FDFBF5;
+            color: #413F3D;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #047857; /* emerald-700 */
+            border-bottom-color: #047857;
+        }
+        .content-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .tab-btn.active {
+            background-color: #047857;
+            color: #ffffff;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-[#FDFBF5] text-[#413F3D]">
+
+    <header class="bg-[#FDFBF5]/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-[#047857]">가야금 디지털 플랜</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#intro" class="nav-link font-medium pb-1">왜 디지털인가?</a>
+                    <a href="#phase1" class="nav-link font-medium pb-1">1단계: 무대 만들기</a>
+                    <a href="#phase2" class="nav-link font-medium pb-1">2단계: 팬과 성장하기</a>
+                    <a href="#phase3" class="nav-link font-medium pb-1">3단계: 지속가능성</a>
+                </div>
+                <div class="md:hidden">
+                    <select id="mobile-nav" class="bg-white border border-gray-300 rounded-md py-2 px-3 text-gray-700">
+                        <option value="#intro">왜 디지털인가?</option>
+                        <option value="#phase1">1단계: 무대 만들기</option>
+                        <option value="#phase2">2단계: 팬과 성장하기</option>
+                        <option value="#phase3">3단계: 지속가능성</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="intro" class="mb-16 md:mb-24 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">가야금, 전통을 넘어 세상과 만나다</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-12">
+                뛰어난 재능을 가진 가야금 연주자들이 설 자리가 줄어들고 있습니다. 전통 공연 시장의 현실을 데이터로 확인하고, 디지털 플랫폼이 어떻게 새로운 기회의 문을 열어주는지 알아보세요. 이것은 단순한 홍보가 아닌, 지속 가능한 예술 활동을 위한 필수 생존 전략입니다.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-left">국악 시장의 현주소 (2024년 상반기)</h3>
+                    <p class="text-sm text-gray-500 mb-4 text-left">전체 공연 시장은 성장했지만, 국악 분야는 여러 지표에서 하락세를 보이며 어려움을 겪고 있습니다.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="marketTrendsChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-left">공연 시장 내 국악의 비중 (2023년)</h3>
+                    <p class="text-sm text-gray-500 mb-4 text-left">전체 티켓 판매액 중 국악이 차지하는 비중은 1% 미만으로, 다른 장르에 비해 매우 작습니다.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="marketShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+
+        <section id="phase1" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">1단계: 나만의 디지털 무대 만들기</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    성공의 첫걸음은 매력적인 콘텐츠입니다. 전통 연주를 넘어, 당신의 개성과 실력을 보여줄 수 있는 다채로운 콘텐츠를 기획하고, 최고의 품질로 제작하여, 더 많은 사람들에게 발견될 수 있도록 최적화하는 방법을 알아봅니다.
+                </p>
+            </div>
+            
+            <div class="space-y-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">콘텐츠 아이디어: 무엇을 보여줄까?</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">퓨전 & 커버</h4>
+                            <p class="text-gray-600">K-Pop, 영화 OST, 팝송 등 대중적인 곡을 가야금으로 재해석하여 새로운 팬을 유치하세요.</p>
+                        </div>
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">교육 콘텐츠</h4>
+                            <p class="text-gray-600">온라인 레슨, 악기 관리법, 조율 팁 등을 공유하며 전문가로서의 신뢰를 쌓고 잠재적 수익을 창출하세요.</p>
+                        </div>
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">브이로그 & 비하인드</h4>
+                            <p class="text-gray-600">연습 과정, 공연 준비 등 인간적인 모습을 보여주며 팬들과 깊은 유대감을 형성하세요.</p>
+                        </div>
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">앰비언트 & 힐링</h4>
+                            <p class="text-gray-600">장시간 재생되는 힐링 연주 음악으로 폭넓은 수요를 충족시키고 채널 노출을 늘리세요.</p>
+                        </div>
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">혁신적 콜라보</h4>
+                            <p class="text-gray-600">재즈, 전자음악 등 다른 장르의 아티스트와 협업하여 예술적 지평을 넓히고 새로운 트렌드를 만드세요.</p>
+                        </div>
+                        <div class="content-card bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg mb-2 text-[#047857]">전통의 깊이</h4>
+                            <p class="text-gray-600">산조, 정악 등 전통 연주를 통해 연주자로서의 깊이와 예술성을 증명하세요.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-center">플랫폼 최적화: 어떻게 발견될까?</h3>
+                    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                        <div class="flex border-b">
+                            <button class="tab-btn flex-1 p-4 font-medium transition-colors duration-300 active" data-tab="youtube">YouTube</button>
+                            <button class="tab-btn flex-1 p-4 font-medium transition-colors duration-300" data-tab="instagram">Instagram</button>
+                            <button class="tab-btn flex-1 p-4 font-medium transition-colors duration-300" data-tab="tiktok">TikTok</button>
+                        </div>
+                        <div class="p-6">
+                            <div id="youtube" class="tab-content">
+                                <h4 class="font-bold text-lg mb-2">심층 콘텐츠의 허브</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    <li><b>키워드 최적화(SEO):</b> 제목, 설명, 파일명에 '가야금 커버', '가야금 배우기' 등 핵심 키워드를 포함시키세요.</li>
+                                    <li><b>롱테일 키워드:</b> '초보자를 위한 가야금 산조 연습법'처럼 구체적인 검색어를 공략하세요.</li>
+                                    <li><b>시청자 참여 유도:</b> 영상 마지막에 댓글, 구독, 좋아요를 요청하여 알고리즘 점수를 높이세요.</li>
+                                    <li><b>콘텐츠 허브:</b> 인스타그램, 틱톡에서 유입된 팬들이 최종적으로 정착하고 깊은 관계를 맺는 공간으로 활용하세요.</li>
+                                </ul>
+                            </div>
+                            <div id="instagram" class="tab-content hidden">
+                                <h4 class="font-bold text-lg mb-2">시각적 브랜딩과 소통</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    <li><b>고품질 비주얼:</b> 감성적인 연주 사진, 짧은 연주 영상(릴스)으로 시선을 사로잡으세요.</li>
+                                    <li><b>해시태그 전략:</b> '#가야금', '#국악' 등 인기 태그와 '#가야금연주자OOTD' 같은 틈새/브랜드 태그를 조합하세요.</li>
+                                    <li><b>스토리 활용:</b> 연습 모습, Q&A 등 실시간 소통으로 친밀감을 높이세요.</li>
+                                    <li><b>DM 소통:</b> 팬들의 메시지에 직접 답장하며 '찐팬'을 만드세요.</li>
+                                </ul>
+                            </div>
+                            <div id="tiktok" class="tab-content hidden">
+                                <h4 class="font-bold text-lg mb-2">빠른 확산과 트렌드 참여</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    <li><b>트렌드 활용:</b> 유행하는 챌린지나 음원을 가야금으로 재치있게 해석하여 바이럴을 노리세요.</li>
+                                    <li><b>짧고 강렬하게:</b> 15~30초 안에 호기심을 자극하고 매력을 어필하는 콘텐츠를 만드세요.</li>
+                                    <li><b>듀엣/이어찍기:</b> 다른 크리에이터의 영상에 참여하여 새로운 잠재고객에게 노출되세요.</li>
+                                    <li><b>젊은 층 공략:</b> 가야금의 새롭고 '힙한' 매력을 보여주는 관문으로 활용하세요.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+
+        <section id="phase2" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">2단계: '찐팬'과 함께 성장하기</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    단순한 구독자를 넘어, 당신의 예술을 진심으로 응원하고 지지하는 '찐팬'을 만드는 것이 중요합니다. 적극적인 소통으로 커뮤니티를 만들고, 온라인과 오프라인을 넘나드는 특별한 경험을 제공하여 단단한 팬덤을 구축하세요.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-5xl mb-4">🤝</div>
+                    <h3 class="text-2xl font-bold mb-4">적극적인 소통과 교감</h3>
+                    <p class="text-gray-600">유튜브 커뮤니티 탭, 인스타그램 스토리 Q&A, 라이브 방송을 통해 팬들의 의견을 듣고 콘텐츠에 반영하세요. 댓글과 DM에 정성껏 답하며 '계정 뒤에 사람 있다'는 진심을 보여주는 것이 '찐친' 관계의 시작입니다.</p>
+                </div>
+                 <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center text-center">
+                    <div class="text-5xl mb-4">💖</div>
+                    <h3 class="text-2xl font-bold mb-4">'1% 핵심 팬' 만들기</h3>
+                    <p class="text-gray-600">모두를 만족시키기보다, 당신의 음악을 가장 사랑하는 '1%의 팬'에게 집중하세요. 미공개 영상, 비하인드 스토리 등 독점적인 가치를 제공하여 그들이 자발적인 홍보대사가 되도록 만드세요. 이들이 성장의 핵심 동력입니다.</p>
+                </div>
+                <div class="md:col-span-2 bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-2xl font-bold mb-4 text-center">온라인과 오프라인의 연결 (O2O)</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                        <div class="p-4 rounded-lg bg-emerald-50">
+                            <p class="font-bold">온라인 팬덤 구축</p>
+                            <p class="text-sm text-gray-600">YouTube, Instagram</p>
+                        </div>
+                        <div class="text-2xl font-bold text-emerald-600">→</div>
+                        <div class="p-4 rounded-lg bg-amber-50">
+                            <p class="font-bold">오프라인 특별 경험</p>
+                            <p class="text-sm text-gray-600">소규모 팬미팅, 워크샵</p>
+                        </div>
+                        <div class="text-2xl font-bold text-amber-600">→</div>
+                         <div class="p-4 rounded-lg bg-emerald-50">
+                            <p class="font-bold">온라인 콘텐츠 재생산</p>
+                            <p class="text-sm text-gray-600">팬미팅 후기 V-log</p>
+                        </div>
+                    </div>
+                     <p class="mt-6 text-center text-gray-600">온라인에서 쌓은 인지도를 바탕으로 소규모 팬미팅이나 워크샵 같은 특별한 오프라인 경험을 제공하세요. 그리고 그 경험을 다시 영상 콘텐츠로 만들어 온라인 팬덤을 더욱 강화하는 선순환 구조를 만들어야 합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+
+        <section id="phase3" class="mb-16 md:mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">3단계: 지속가능한 아티스트 되기</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    예술 활동을 계속하려면 안정적인 수입이 필수적입니다. 공연 수입에만 의존하지 않고, 당신의 재능과 콘텐츠를 활용해 수익을 다각화하는 방법을 모색해야 합니다. 동시에 당신의 소중한 창작물을 보호하는 방법도 잊지 마세요.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-bold mb-8 text-center">수익 모델 다각화</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="content-card bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="text-4xl mb-3">🎓</div>
+                        <h4 class="font-bold text-lg mb-2">온라인 레슨</h4>
+                        <p class="text-sm text-gray-600">국내외 팬들을 위한 유료 온라인 강좌나 1:1 화상 레슨을 통해 전문 지식을 수익으로 연결하세요.</p>
+                    </div>
+                    <div class="content-card bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="text-4xl mb-3">🎁</div>
+                        <h4 class="font-bold text-lg mb-2">디지털 굿즈</h4>
+                        <p class="text-sm text-gray-600">직접 편곡한 악보, 연주 음원, 휴대폰 배경화면 등 팬들을 위한 특별한 디지털 상품을 판매하세요.</p>
+                    </div>
+                    <div class="content-card bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="text-4xl mb-3">🤝</div>
+                        <h4 class="font-bold text-lg mb-2">전략적 협업</h4>
+                        <p class="text-sm text-gray-600">다른 아티스트와의 협업 앨범을 발매하거나, 기업/브랜드와 협업하여 홍보 영상을 제작하세요.</p>
+                    </div>
+                    <div class="content-card bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="text-4xl mb-3">💰</div>
+                        <h4 class="font-bold text-lg mb-2">크라우드 펀딩</h4>
+                        <p class="text-sm text-gray-600">새 앨범 제작, 단독 공연 개최 등 특정 프로젝트를 위해 팬들의 직접적인 후원을 받아보세요.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold mb-8 text-center">브랜드 보호와 성장</h3>
+                 <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="font-bold text-lg mb-2">지적 재산권(IP) 보호</h4>
+                        <p class="text-gray-600">자작곡이나 편곡에 대한 저작권을 등록하고, 유튜브 Content ID 시스템을 활용하여 무단 도용을 방지하세요. 커버곡 제작 시 원작자의 권리를 존중하는 것은 필수입니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="font-bold text-lg mb-2">온라인 평판 관리</h4>
+                        <p class="text-gray-600">사생활 보호에 신경 쓰고, 악성 댓글에는 감정적으로 대응하기보다 플랫폼의 신고 기능을 활용하세요. 모든 온라인 활동이 당신의 브랜드가 됨을 기억해야 합니다.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>이 페이지는 가야금 아티스트의 성공적인 디지털 전환을 응원하기 위해 제작되었습니다.</p>
+            <p class="text-sm text-gray-400 mt-2">디지털 시대, 당신의 예술은 더 넓은 세상과 만날 자격이 있습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const marketTrendsCtx = document.getElementById('marketTrendsChart').getContext('2d');
+            new Chart(marketTrendsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['공연 건수', '상연 횟수', '티켓 예매 수', '티켓 판매액'],
+                    datasets: [{
+                        label: '국악 분야 전년 대비 증감률 (%)',
+                        data: [-8.3, -7.7, -4.0, -2.7],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(255, 205, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const marketShareCtx = document.getElementById('marketShareChart').getContext('2d');
+            new Chart(marketShareCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['뮤지컬', '서양음악(클래식)', '연극', '무용', '한국음악(국악)', '복합'],
+                    datasets: [{
+                        label: '장르별 티켓판매액 비중 (%)',
+                        data: [70.9, 15.2, 9.7, 2.9, 0.7, 0.5],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(201, 203, 207, 0.6)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: false,
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed.toFixed(1) + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const tabId = button.dataset.tab;
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.addEventListener('change', (e) => {
+                window.location.href = e.target.value;
+            });
+        });
+    </script>
+</body>
+</html>
